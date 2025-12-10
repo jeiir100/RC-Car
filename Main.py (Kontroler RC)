@@ -1,0 +1,59 @@
+#sender RC 
+
+from machine import Pin, UART
+import time
+import utime
+import machine
+from machine import I2C
+from machine import Pin, PWM
+#Definicje 
+led = Pin(25, Pin.OUT)
+buzzer = Pin(9, Pin.IN, Pin.PULL_UP)
+car_led = Pin(8, Pin.IN, Pin.PULL_UP)
+
+forward_2x2 = Pin(15, Pin.IN, Pin.PULL_UP)
+back_2x2 = Pin(14, Pin.IN, Pin.PULL_UP)
+w_prawo = Pin(13, Pin.IN, Pin.PULL_UP)
+w_lewo = Pin(12, Pin.IN, Pin.PULL_UP)
+w_koło_prawe = Pin(11, Pin.IN, Pin.PULL_UP)
+w_koło_lewe = Pin(10, Pin.IN, Pin.PULL_UP)
+uart = UART(1, 9600, rx=Pin(5), tx=Pin(4) , bits=8, parity=None, stop=1, timeout=1)
+
+#uart.write("8")
+
+
+while True:
+    #Do przodu 
+    if forward_2x2.value() == 0:        
+        uart.write("1")
+        time.sleep(0.3)
+        print("jest")
+    #Do tyłu    
+    if back_2x2.value() == 0:        
+        uart.write("2")
+        time.sleep(0.3)
+    #W prawo   
+    if w_prawo.value() == 0:       
+        uart.write("3")
+        time.sleep(0.3)
+    #W lewo
+    if w_lewo.value() == 0: 
+        uart.write("4")
+        time.sleep(0.3)
+    #W prawo V2 
+    if w_koło_prawe.value() == 0:       
+        uart.write("5")
+        time.sleep(0.3)
+    #W lewo V2
+    if w_koło_lewe.value() == 0:        
+        uart.write("6")
+        time.sleep(0.3)
+    #Klakson
+    if buzzer.value() == 0:     
+        uart.write("7")
+        time.sleep(1)
+    #Led    
+    if car_led.value() == 0:   
+        uart.write("8")
+        time.sleep(0.2)
+        
